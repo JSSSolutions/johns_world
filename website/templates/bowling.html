@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block title %}Bowling Corner Page{% endblock %}
+{% block content %}
+    <form method="POST">
+        <div class="trophies-container">
+            <img src="{{ url_for('static', filename='images/Trophy19990625.jpg') }}" width="45%"/>
+            <img src="{{ url_for('static', filename='images/Trophy20000922.jpg') }}" width="45%"/>
+        </div>
+        <h1 align="center">John Sowell's Bowling Corner</h1>
+        <h2 align="center">Get Bowling Stats</h2>
+        <hr />
+        <div class="dates-venues-container">
+            <div class="date-container">
+                <h3 align="center">Date From</h3>
+                <div class="combos-row">
+                    <div class="combo-column">
+                        <h3>Month</h3>
+                        <select name="cmb-month-from" id="cmb-month-from">
+                            {% for m in mfl %}
+                                {% if m.id == smf %}
+                                    <option value="{{ m.id }}" selected="selected">{{ m.name }}</option>
+                                {% else %}
+                                    <option value="{{ m.id }}">{{ m.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="combo-column">
+                        <h3>Date</h3>
+                        <select name="cmb-date-from" id="cmb-date-from">
+                            {% for d in dfl %}
+                                {% if d.id == sdf %}
+                                    <option value="{{ d.id }}" selected="selected">{{ d.name }}</option>
+                                {% else %}
+                                    <option value="{{ d.id }}">{{ d.name }}</option>
+                                {% endif %}
+                            {% endfor %}                    
+                        </select>
+                    </div>
+
+                    <div class="combo-column">
+                        <h3>Year</h3>
+                        <select name="cmb-year-from" id="cmb-year-from">
+                            {% for y in yfl %}
+                                {% if y.id == syf %}
+                                    <option value="{{ y.id }}" selected="selected">{{ y.name }}</option>
+                                {% else %}
+                                    <option value="{{ y.id }}">{{ y.name }}</option>
+                                {% endif %}
+                            {% endfor %}                                        
+                        </select>            
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-container">
+                <h3 align="center">Date To</h3>
+                <div class="combos-row">
+                    <div class="combo-column">
+                        <h3>Month</h3>
+                        <select name="cmb-month-to" id="cmb-month-to">
+                            {% for m in mtl %}
+                                {% if m.id == smt %}
+                                    <option value="{{ m.id }}" selected="selected">{{ m.name }}</option>
+                                {% else %}
+                                    <option value="{{ m.id }}">{{ m.name }}</option>
+                                {% endif %}
+                            {% endfor %}                
+                        </select>            
+                    </div>
+
+                    <div class="combo-column">
+                        <h3>Date</h3>
+                        <select name="cmb-date-to" id="cmb-date-to">
+                            {% for d in dtl %}
+                                {% if d.id == sdt %}
+                                    <option value="{{ d.id }}" selected="selected">{{ d.name }}</option>
+                                {% else %}
+                                    <option value="{{ d.id }}">{{ d.name }}</option>
+                                {% endif %}
+                            {% endfor %}                                        
+                        </select>            
+                    </div>
+
+                    <div class="combo-column">
+                        <h3>Year</h3>
+                        <select name="cmb-year-to" id="cmb-year-to">
+                            {% for y in ytl %}
+                                {% if y.id == syt %}
+                                    <option value="{{ y.id }}" selected="selected">{{ y.name }}</option>
+                                {% else %}
+                                    <option value="{{ y.id }}">{{ y.name }}</option>
+                                {% endif %}
+                            {% endfor %}                                                            
+                        </select>            
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-container">
+                <button type="submit" class="btn btn-success" id="get-stats" name="get-stats">Get Statistics</button>
+                <div class="combo-column">                    
+                    <h3>Venues</h3>
+                    <select name="cmb-venues" id="cmb-venues">
+                        {% for v in vl %}
+                            {% if v.id == sv %}
+                                <option value="{{ v.id }}" selected="selected">{{ v.name }}</option>
+                            {% else %}
+                                <option value="{{ v.id }}">{{ v.name }}</option>
+                            {% endif %}
+                        {% endfor %}                                                            
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="events-container">
+            <div class="combo-column">
+                <h3>Event From</h3>
+                <select name="cmb-event-from" id="cmb-event-from">
+                    {% for e in efl %}
+                        {% if e.id == sef %}
+                            <option value="{{ e.id }}" selected="selected">{{ e.name }}</option>
+                        {% else %}
+                            <option value="{{ e.id }}">{{ e.name }}</option>
+                        {% endif %}
+                    {% endfor %}                                                            
+                </select>
+            </div>
+
+            <div class="combo-column">
+                <h3>Event To</h3>
+                <select name="cmb-event-to" id="cmb-event-to">
+                    {% for e in etl %}
+                        {% if e.id == set %}
+                            <option value="{{ e.id }}" selected="selected">{{ e.name }}</option>
+                        {% else %}
+                            <option value="{{ e.id }}">{{ e.name }}</option>
+                        {% endif %}
+                    {% endfor %}                                                            
+                </select>
+            </div>
+
+            <div class="combo-column">
+                <button type="submit" class="btn btn-success" id="get-stats2" name="get-stats2">Get Statistics</button>                
+            </div>
+        </div>
+
+        {% if results %}
+            <hr />
+            <h1 align="center">John Sowell's Bowling Results</h1>
+            <h2 align="center">{{ results.caption }}</h2>
+
+            <div class="average-container">
+                <h3>Games: {{ results.games }}</h3>
+                <h3>Total Pins: {{ results.total_pins }}</h3>
+                <h3>Average: {{ results.average }}</h3>
+            </div>
+
+            {% if results.high_game < 300 %}
+                <h3>High Game: {{ results.high_game }}</h3>
+            {% else %}
+                <h3>Perfect 300 Games: {{ results.perfect_games }}</h3>
+            {% endif %}
+            {% for i in results.high_game_info %}
+                <h4>Date Bowled: {{ i.date }}</h4>
+                <h4>Venue Bowled At: {{ i.venue }}</h4>
+                {% if i.event %}
+                    <h4>Event: {{ i.event }}</h4>
+                {% endif %}
+                <br />
+            {% endfor %}
+
+            <h3>Low Game: {{ results.low_game }}</h3>
+            {% for i in results.low_game_info %}
+                <h4>Date Bowled: {{ i.date }}</h4>
+                <h4>Venue Bowled At: {{ i.venue }}</h4>
+                {% if i.event %}
+                    <h4>Event: {{ i.event }}</h4>
+                {% endif %}
+                <br />
+            {% endfor %}
+
+            {% if results.high_series3 > 0 %}
+                <h3>High 3-Game Series: {{ results.high_series3 }}</h3>
+                {% for i in results.high_series3_info %}
+                    <h4>Date Bowled: {{ i.date }}</h4>
+                    <h4>Venue Bowled At: {{ i.venue }}</h4>
+                    {% if i.event %}
+                        <h4>Event: {{ i.event }}</h4>
+                    {% endif %}
+                    <br />
+                {% endfor %}
+            {% endif %}
+
+            {% if results.high_series4 > 0 %}
+                <h3>High 4-Game Series: {{ results.high_series4 }}</h3>
+                {% for i in results.high_series4_info %}
+                    <h4>Date Bowled: {{ i.date }}</h4>
+                    <h4>Venue Bowled At: {{ i.venue }}</h4>
+                    {% if i.event %}
+                        <h4>Event: {{ i.event }}</h4>
+                    {% endif %}
+                    <br />
+                {% endfor %}
+            {% endif %}
+
+            {% if results.high_series5 > 0 %}
+                <h3>High 5-Game Series: {{ results.high_series5 }}</h3>
+                {% for i in results.high_series5_info %}
+                    <h4>Date Bowled: {{ i.date }}</h4>
+                    <h4>Venue Bowled At: {{ i.venue }}</h4>
+                    {% if i.event %}
+                        <h4>Event: {{ i.event }}</h4>
+                    {% endif %}
+                    <br />
+                {% endfor %}
+            {% endif %}
+
+            {% if results.games_200 > 0 %}
+                <h3>200 Games: {{ results.games_200 }}</h3>
+            {% endif %}
+
+            {% if results.series_600 > 0 %}
+                <h3>600 Series: {{ results.series_600 }}</h3>
+            {% endif %}
+
+            {% if results.series_700 > 0 %}
+                <h3>700 Series: {{ results.series_700 }}</h3>
+            {% endif %}
+
+            {% if results.series_800 > 0 %}
+                <h3>800 Series: {{ results.series_800 }}</h3>
+            {% endif %}
+
+            {% for e in results.event_list %}
+                <table align="center" border="2" width="400">
+                    <tr><td colspan="3" align="center"><h3>Event #{{ e.id }}</h3></td></tr>
+                    <tr><td colspan="3" align="center"><h3>{{ e.date }} {{ e.venue }}</h3></td></tr>
+                    <tr><td colspan="3" align="center"><h4>{{ e.event_name }}</h4></td></tr>
+                    <tr><td><h4>GAME #</h4></td><td><h4>SCORE</h4></td><td><h4>COMMENTS</h4></td></tr>
+                    {% for g in e.game_list %}
+                        <tr><td><h4>{{ g.game_number }}</h4></td><td><h4>{{ g.score }}</h4></td><td><h4>{{ g.series_str }}</h4></td></tr>
+                    {% endfor %}
+                    <tr><br /></tr>
+                    <tr><td><h4>TOTAL</h4></td><td><h4>{{ e.total_pins }}</h4></td><td><h4>EVENT AVERAGE: {{ e.average }}</h4></td></tr>
+                </table>
+                <br />
+            {% endfor %}
+        {% endif %}
+    </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Home Page {% endblock %}
+{% block content %}
+    <div class="home-container">
+        <h1>This Is The Home Page!</h1>
+        <h2>Welcome To John's World!</h2>
+        <img src="{{ url_for('static', filename='images/John3.jpg') }}"/>
+        <table border="1" width="389">
+            <tr><td class="main-menu-item"><a id="bowling-corner" href="/bowling"><h2>Bowling Corner</h2></a></td></tr>
+            <tr><td class="main-menu-item"><a id="happy-places" href="/happy-places"><h2>Happy Places</h2></a></td></tr>
+            <tr><td class="main-menu-item"><a id="hundred-degree-days" href="/hundred-degree-days"><h2>100°+ Days In Houston</h2></a></td></tr>
+            <tr><td class="main-menu-item"><a id="music-corner" href="http://musicaldice323.com/music.php"><h2>Music Corner</h2></a></td></tr>                        
+            <tr><td class="main-menu-item"><a id="writings" href="/writings"><h2>John Sowell's Writings</h2></a></td></tr>
+        </table>    
+    </div>
+{% endblock %}

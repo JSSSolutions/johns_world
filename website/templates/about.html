@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}About Page{% endblock %}
+{% block content %}
+    <div class="about-container">
+        <h1>This Is The About Page!</h1>
+        <h2>About John Sowell</h2>
+        <img src="{{ url_for('static', filename='images/John2.jpg') }}"/>
+    </div>
+    <p><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;John Stuart Sowell, born March 23, 1965, is a software developer with over 30 years of industry experience. He specializes in Windows and desktop application development. He also develops websites. Primary programming languages include C#, C++, and Python.</i></p>
+{% endblock %}
